@@ -32,7 +32,7 @@ class TreeNode:
         currentlevel = self.get_level()
         emptystring = "!__" * currentlevel
         print(f"{emptystring}{self.name}")
-        print(self.get_sum())
+        print(f"{emptystring}{self.get_sum()}")
         # if self.get_sum() <10000:
         #     abc+=self.get_sum()
         for data in self.data:
