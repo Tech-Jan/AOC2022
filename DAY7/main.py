@@ -1,5 +1,7 @@
 import filereader
 from harddisktree import TreeNode
+from collections import defaultdict
+from pprint import pprint
 
 list = filereader.readfile("input")
 
@@ -43,3 +45,29 @@ a = 70000000 - my_harddisk.get_sum()
 b = 30000000 - a
 c = [b]
 print(sorted(my_harddisk.get_highfoldersize(b)[1]))
+
+def readfile(rawdata):
+    data = open(rawdata, "r").read()
+    return data
+l=readfile("input")
+sizes=defaultdict(int)
+stack = []
+for l in list:
+    match l.split():
+        case [_, _, "/"]:
+            stack = []
+        case [_, _, ".."]:
+            stack.pop()
+        case [_, _, b]:
+            print(l)
+            stack.append(b)
+        case [a, _] if a.isdigit():
+            for i in range(len(stack) + 1):
+                path = "/" + "/".join(stack[:i])
+                sizes[path] += int(a)
+
+pprint(sizes)
+print(sum(filter(lambda v: v <= 100000, sizes.values())))
+unused = 70000000 - sizes["/"]
+need = 30000000 - unused
+print(min(filter(lambda v: v >= need, sizes.values())))
