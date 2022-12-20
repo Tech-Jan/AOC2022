@@ -4,10 +4,10 @@ import pprint
 import time
 import os
 
-storage = Storage("/home/jew/PycharmProjects/day5 OOP/extendedcrates")
+storage = Storage("/home/jew/projects/AOC/AOC2022/DAY5/extendedcrates")
 storage.storeheight = 45
 storage.floorlevel = 1
-move_list = MovePlan("/home/jew/PycharmProjects/day5 OOP/day5moves")
+move_list = MovePlan("/home/jew/projects/AOC/AOC2022/DAY5/day5moves")
 crane9000 = Crane(storage, "9000")
 pp = pprint.PrettyPrinter(width=250)
 
