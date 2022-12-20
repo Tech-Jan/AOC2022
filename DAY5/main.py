@@ -4,10 +4,10 @@ import pprint
 import time
 import os
 
-storage = Storage("/home/jew/projects/AOC/AOC2022/DAY5/extendedcrates")
+storage = Storage("extendedcrates")
 storage.storeheight = 45
 storage.floorlevel = 1
-move_list = MovePlan("/home/jew/projects/AOC/AOC2022/DAY5/day5moves")
+move_list = MovePlan("day5moves")
 crane9000 = Crane(storage, "9000")
 pp = pprint.PrettyPrinter(width=250)
 
@@ -16,6 +16,11 @@ pp.pprint(storage.shelf)
 # this turns the list into a random lsit where the moves fit the storage width
 mylist = move_list.datamovelistcreator(storage)
 # print(mylist)
+
+import os
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 for move in mylist:
@@ -27,7 +32,7 @@ for move in mylist:
     print("!###############################################################################################!")
     pp.pprint(len(storage.shelf))
     time.sleep(0.08)
-    os.system('clear')
+    os.system("cls")
 
 storage2 = Storage("/home/jew/PycharmProjects/day5 OOP/day5crates")
 # need +- 50 to pull of the AOC day5 quest
@@ -45,7 +50,7 @@ for move in move_list2.movelist:
     pp.pprint(storage2.shelf)
     print("!##############################################!")
     time.sleep(0.08)
-    os.system('clear')
+    os.system("cls")
 
 pp.pprint(storage2.shelf)
 # print(crane9001.move_box)
