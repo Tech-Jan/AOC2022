@@ -96,8 +96,14 @@ input_expected = [[1, 24], [2, 100], [3, 224], [4, 400], [5, 624], [6, 900], [7,
 
 
 @pytest.mark.parametrize("test_input,expected", input_expected)
-def test_result(test_input, expected, monkey_list, inspection_results):
+def test_result_p2(test_input, expected, monkey_list, inspection_results):
     for i in range(test_input):
         inspection_counter_p2(monkey_list)
         inspections = sorted([monkey.inspections for monkey in monkey_list], reverse=True)
     assert inspections[0] * inspections[1] == expected
+
+def test_result_p1(monkey_list):
+    for i in range(20):
+        inspection_counter_p1(monkey_list)
+        inspections = sorted([monkey.inspections for monkey in monkey_list], reverse=True)
+    assert inspections[0] * inspections[1] == 10605
