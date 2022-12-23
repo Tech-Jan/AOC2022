@@ -2,10 +2,18 @@ import pprint
 import string
 import time
 
+import colorama
 import pandas as pd
+import ast
 
 from map import Map, Labyrinth
 from objects import Elf, End, Elf_Army
+from colorama import Back,Fore,Style
+
+import os
+
+# the command to clear is `cls` on Windows and `clear` on most everything else
+clear = lambda: os.system('cls')
 
 pp = pprint.PrettyPrinter(width=4000)
 pd.set_option("display.max_columns", None)
@@ -20,7 +28,7 @@ def coords_dictionary():
 
 
 def main():
-    #part1
+    # part1
     # get enumerated dictionary
     abc = coords_dictionary()
     # get my_map as dataframe
@@ -40,87 +48,60 @@ def main():
     lab.movescape[me.current_pos["x"]][me.current_pos["y"]] = 1
     z = 0
     found_end = False
-    while not found_end:
-        possible_xyz = []
-        for b in range(len(my_elf_army.army)):
-            elf = my_elf_army.army[b]
-            new_possible_xyz = lab.possible_moves(elf.current_pos, my_map, lab.movescape, abc)
-            for item in new_possible_xyz:
-                if item not in possible_xyz:
-                    possible_xyz.append(item)
-        my_elf_army.army = []
+    #
+    #
+    lab.search_end(end,my_elf_army,lab,my_map,abc,)
 
-        for xyz in (possible_xyz):
-            newme = Elf()
-            newme.move(newme.current_pos, xyz, landscape, lab.movescape)
-            my_elf_army.army.append(newme)
-            if newme.current_pos == end.current_pos:
-                z += 1
-                print("UUU DUUUDIIIDIIIT")
-                print(z)
-                found_end=True
-                break
-        z += 1
-        # print(lab.movescape.to_string(index=False))
-
-    #part2
-    my_elf_army2=Elf_Army()
+    # part2
+    my_elf_army2 = Elf_Army()
     lab2 = Labyrinth()
-    print(lab2.movescape)
+    #print(lab2.movescape)
     new_ground = Elf()
-    new_ground.name="a"
-    starting_positions=my_map.find_coords("a",landscape,abc,multi=True)
-    print(starting_positions)
+    new_ground.name = "a"
+    starting_positions = my_map.find_coords("a", landscape, abc, multi=True)
+    #print(starting_positions)
     for starting_position in starting_positions:
-        new_elf=Elf()
-        new_elf.move(new_elf.current_pos,starting_position,landscape,lab2.movescape)
+        new_elf = Elf()
+        new_elf.move(new_elf.current_pos, starting_position, landscape, lab2.movescape)
         my_elf_army2.army.append((new_elf))
-    print(lab2.movescape.to_string(index=False))
-    lab2.path=[[{'x': 1, 'y': 0, 'z': 1}]]
-    z=0
-    found_end = False
-    while not found_end:
-        possible_xyz = []
-        for b in range(len(my_elf_army2.army)):
-            elf = my_elf_army2.army[b]
-            new_possible_xyz = lab2.possible_moves(elf.current_pos, my_map, lab2.movescape, abc)
-            for item in new_possible_xyz:
-                if item not in possible_xyz:
-                    possible_xyz.append(item)
+    #print(lab2.movescape.to_string(index=False))
+    lab2.paths = [[{'x': 1, 'y': 0, 'z': 1}]]
+    #
+    #
+    #lab.search_end(end, my_elf_army2, lab2, my_map, abc, )
 
-        # lab2.path = [path for path in lab2.path if len(path) > z-1]
-        # for xyz in (possible_xyz):
-        #     lab2.path.append(lab2.path[0])
-        #     for path in lab2.path:
-        #         for elf in my_elf_army2.army:
-        #             if elf.current_pos in path:
-        #                 path.append(xyz)
-        #                 testvar=len(path)
+    #part3
+    with open("C:\\Users\\rik\PycharmProjects\AOC2022\Day12\src\mypath","r") as f:
+        my_path=f.read()
+    my_path=my_path.split("\n")
+    wanderer=Elf()
+    lab3=Labyrinth()
+    colorama.init(autoreset=True)
+    #print(Fore.RED + my_map.landscape.to_string(index=False, header=False))
+    lab3.movescape=my_map.landscape
+    lab3.give_colors(abc)
+    print(lab3.movescape.to_string(index=False, header=False))
 
 
-        my_elf_army2.army = []
-        for xyz in (possible_xyz):
+    for step in my_path:
+        try:
+            ast.literal_eval(step)
+        except:
+            break
+        else:
+            step=ast.literal_eval(step)
 
-
-            newme = Elf()
-            newme.move(newme.current_pos, xyz, landscape, lab2.movescape)
-            my_elf_army2.army.append(newme)
-
-
-            if newme.current_pos == end.current_pos:
-                z += 1
-                print("UUU DUUUDIIIDIIIT")
-                print(z)
-                found_end=True
-                break
-
-
-
+        wanderer.move(wanderer.current_pos,step,my_map.landscape,lab3.movescape)
         time.sleep(0.1)
-        #print(lab2.movescape.to_string(index=False))
-        z += 1
-        # pp.pprint (lab2.path)
-        # print(len(lab2.path[0]))
+        clear()
+        print(f"{lab3.movescape.to_string(index=False, header=False)}",end ="\r")
+
+
+    for i in range(200):
+        time.sleep(0.1)
+        print(lab3.movescape.to_string(index=False, header=False))
+
+
 
 
 
