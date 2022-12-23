@@ -1,5 +1,6 @@
-from map import *
 import pandas as pd
+from colorama import Fore
+
 
 class Elf:
     def __init__(self):
@@ -32,10 +33,10 @@ class Elf:
             try:
                 int(movescape[new_x][new_y])
             except ValueError:
-                movescape[new_x][new_y] = Fore.CYAN +"X"
+                movescape[new_x][new_y] = Fore.CYAN + "X"
                 if x >= 0 and y >= 0:
-                    if x!=new_x:
-                        movescape[x][y] = Fore.CYAN +"-"
+                    if x != new_x:
+                        movescape[x][y] = Fore.CYAN + "-"
                     if y != new_y:
                         movescape[x][y] = Fore.CYAN + "|"
             else:

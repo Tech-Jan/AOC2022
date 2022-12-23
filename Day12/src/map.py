@@ -1,10 +1,7 @@
 import copy
 
-from colorama import *
-
 import filereader
 from objects import *
-import pandas as pd
 
 
 class Map:
@@ -127,7 +124,7 @@ class Labyrinth(Map):
                 if path[-1] == elf.current_pos:
 
                     for pos in possible_xyz:
-                        if abs(elf.current_pos["x"] - pos["x"]) + abs(elf.current_pos["y"] - pos["y"]) < 2:
+                        if abs(elf.current_pos["x"] - pos["x"]) + abs(elf.current_pos["y"] - pos["y"]) < 2 and pos["z"] - elf.current_pos["z"] <=1:
                             if not any(pos in sublist for sublist in self.paths):
                                 self.paths.append(copy.deepcopy(path))
                                 self.paths[-1].append(pos)
@@ -179,7 +176,7 @@ class Labyrinth(Map):
 
             z += 1
             print(z)
-            #print(lab.movescape.to_string(index=False))
+            # print(lab.movescape.to_string(index=False))
 
     def give_colors(self, abc: dict):
 
@@ -191,77 +188,74 @@ class Labyrinth(Map):
                      3: "BRIGHT",
                      }
             print(value)
-            u=1
-            if value==u:
+            u = 1
+            if value == u:
                 self.movescape.replace(key, Fore.GREEN + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTGREEN_EX + key, inplace=True)
             u += 1
-            if value==u:
+            if value == u:
                 self.movescape.replace(key, Fore.YELLOW + key, inplace=True)
 
-
-
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTYELLOW_EX + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.RED + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTRED_EX + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.BLACK + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.BLACK + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.BLACK + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTBLACK_EX + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTBLACK_EX + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTBLACK_EX + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.MAGENTA + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTMAGENTA_EX + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.CYAN + key, inplace=True)
             u += 1
-            if value==u:
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTCYAN_EX + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.BLUE + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.BLUE + key, inplace=True)
-            u+=1
-            if value==u:
-                self.movescape.replace(key, Fore.LIGHTBLUE_EX + key, inplace=True)
-            u+=1
-            if value==u:
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.LIGHTBLUE_EX + key, inplace=True)
             u += 1
-            if value==u:
+            if value == u:
+                self.movescape.replace(key, Fore.LIGHTBLUE_EX + key, inplace=True)
+            u += 1
+            if value == u:
                 self.movescape.replace(key, Fore.WHITE + key, inplace=True)
             u += 1
-            if value>=u:
+            if value >= u:
                 self.movescape.replace(key, Fore.LIGHTWHITE_EX + key, inplace=True)
 
             else:
                 self.movescape.replace(key, Fore.BLACK + key, inplace=True)
-            self.movescape.replace("E", Fore.RED+ "E", inplace=True)
-
+            self.movescape.replace("E", Fore.RED + "E", inplace=True)
