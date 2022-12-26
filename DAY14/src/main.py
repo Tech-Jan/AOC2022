@@ -7,9 +7,9 @@ def main():
     my_sand.paintsand(my_map)
     while not my_map.cave_full:
         my_sand_particle = SandParticle(my_map)
-        my_sand_particle.fall()
+        my_sand_particle.fall_part2()
 
-    print(len(my_map.sand_particles)-1)
+
     # print(sorted(my_map.stone_list, key=lambda x:x["x"]))
 
 
