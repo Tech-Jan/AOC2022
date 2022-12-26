@@ -38,9 +38,12 @@ class Cave:
         self.paint_stones()
         self.cave_full=False
 
+    def __hash__(self):
+        pass
+
     def items_tupel_conv(self):
         # self.items_tupel=tuple((item["x"],item["y"]) for item in self.items)
-        self.items_tupel = [(item["x"], item["y"]) for item in self.items]
+        self.items_tupel = set((item["x"], item["y"]) for item in self.items)
 
     def mapstyler(self, map_size: dict):
         size_y = map_size["max_y"] - map_size["min_y"] + 10
@@ -85,6 +88,7 @@ class Cave:
         return stone_list
 
     def paint_stones(self):
+        # ToDo improve perfomance of this method
         self.map = self.mapstyler(self.map_size)
         for item in self.items:
             if item["item"] == "stone":
@@ -113,6 +117,9 @@ class SandParticle(Sand):
                       "y": -1}
         self.cave = cave
         self.add_sand_to_map()
+
+    def __hash__(self):
+        return f"x:{self.coord['x']} y: {self.coord['y']}".__hash__()
 
     def add_sand_to_map(self):
         self.cave.sand_particles.append(self.coord)
@@ -161,7 +168,7 @@ class SandParticle(Sand):
     def check_bottom_part2(self):
         if self.coord["y"]>self.cave.map_size["max_y"]:
             abc = tuple((self.coord["x"], self.coord["y"]))
-            self.cave.items_tupel.append(abc)
+            self.cave.items_tupel.add(abc)
             return False
         else:
 
@@ -199,7 +206,7 @@ class SandParticle(Sand):
                         print(self.cave.map.to_string())
                     # self.cave.items.append(self.coord)
                     abc=tuple((self.coord["x"],self.coord["y"]))
-                    self.cave.items_tupel.append(abc)
+                    self.cave.items_tupel.add(abc)
                     # self.cave.items_tupel_conv()
                     stone_roll = False
                     print(len(self.cave.sand_particles))
