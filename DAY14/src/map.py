@@ -1,11 +1,9 @@
-import time
 import pandas as pd
+
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 
-
 MAP_INPUT = "..\input\\input"
-
 
 with open(MAP_INPUT, "r") as myinput:
     myinput = [line.split("->") for line in myinput.read().split("\n")]
@@ -36,7 +34,7 @@ class Cave:
         self.size_y = self.map_size["max_y"] - self.map_size["min_y"]
         self.size_x = self.map_size["max_x"] - self.map_size["min_x"]
         self.paint_stones()
-        self.cave_full=False
+        self.cave_full = False
 
     def __hash__(self):
         pass
@@ -46,10 +44,10 @@ class Cave:
         self.items_tupel = set((item["x"], item["y"]) for item in self.items)
 
     def mapstyler(self, map_size: dict):
-        size_y = map_size["max_y"] - map_size["min_y"] + 10
+        size_y = map_size["max_y"] - map_size["min_y"] + 20
         size_x = map_size["max_x"] - map_size["min_x"] + 10
-        mymap = pd.DataFrame(index=[map_size["min_y"] - 5 + i for i in range(size_y)],
-                             columns=[map_size["min_x"] + i for i in range(-300,300)])
+        mymap = pd.DataFrame(index=[map_size["min_y"] - 14 + i for i in range(size_y)],
+                             columns=[map_size["min_x"] + i for i in range(-300, 300)])
         mymap.fillna(".", inplace=True)
         return mymap
 
@@ -99,14 +97,15 @@ class Cave:
             self.map[item["x"]][item["y"]] = "o"
         self.map[500][0] = "x"
 
+    def add_sand_todata(self, xy: tuple):
+        self.map[xy[0]][xy[1]] = "o"
+
 
 class Sand:
     def __init__(self):
         self.sand = "o"
         self.particles = []
 
-    def paintsand(self, cave: Cave):
-        cave.map[492][4] = "o"
 
 
 class SandParticle(Sand):
@@ -158,20 +157,11 @@ class SandParticle(Sand):
             return blocked
 
     def check_full_part1(self):
-        if self.coord["y"]>self.cave.map_size["max_y"]:
+        if self.coord["y"] > self.cave.map_size["max_y"]:
             return False
         else:
             self.cave.paint_stones()
             print(self.cave.map.to_string())
-            return True
-
-    def check_bottom_part2(self):
-        if self.coord["y"]>self.cave.map_size["max_y"]:
-            abc = tuple((self.coord["x"], self.coord["y"]))
-            self.cave.items_tupel.add(abc)
-            return False
-        else:
-
             return True
 
     def fall_part1(self):
@@ -193,33 +183,46 @@ class SandParticle(Sand):
             else:
                 stone_roll = False
 
-
     def fall_part2(self):
         stone_roll = True
         while stone_roll:
-            if self.check_bottom_part2():
-                possible_move = self.possible_moves_part2()
-                if possible_move["x"] == 0 and possible_move["y"] == 0:
-                    if self.coord["x"]==500 and self.coord["y"]==0:
-                        self.cave.cave_full = True
-                        self.cave.paint_stones()
-                        print(self.cave.map.to_string())
-                    # self.cave.items.append(self.coord)
-                    abc=tuple((self.coord["x"],self.coord["y"]))
-                    self.cave.items_tupel.add(abc)
-                    # self.cave.items_tupel_conv()
-                    stone_roll = False
-                    print(len(self.cave.sand_particles))
-                    # if len(self.cave.sand_particles)%1==0:
-                    #     self.cave.paint_stones()
-                    #     print(self.cave.map.to_string())
-
-                else:
-                    self.coord["x"] += possible_move["x"]
-                    self.coord["y"] += possible_move["y"]
-            else:
+            possible_move = self.possible_moves_part2()
+            if possible_move["x"] == 0 and possible_move["y"] == 0 or self.check_bottom_part2():
+                if self.coord["x"] == 500 and self.coord["y"] == 0:
+                    self.cave.cave_full = True
+                # self.cave.items.append(self.coord)
+                abc = tuple((self.coord["x"], self.coord["y"]))
+                self.cave.items_tupel.add(abc)
+                # self.cave.items_tupel_conv()
                 stone_roll = False
-                # self.cave.cave_full = True
+                # the cave.add_sand to data slows down the calculation but can be used for nice prints per step
+                # if add_sand_todata is not used the entire tabel has to be repainted at the end of the task
+                # for this the map.paint_stones method can be used
+
+                #uncomment next line and the one in the  if %50 statement to drawo
+                self.cave.add_sand_todata(abc)
+                if len(self.cave.sand_particles) % 5000==0:
+                    print(self.cave.map.to_string())
+                    print(len(self.cave.sand_particles))
+                # if len(self.cave.sand_particles)%1==0:
+                #     self.cave.paint_stones()
+                #     print(self.cave.map.to_string())
+
+            else:
+                self.coord["x"] += possible_move["x"]
+                self.coord["y"] += possible_move["y"]
+        else:
+            stone_roll = False
+            # self.cave.cave_full = True
+
+    def check_bottom_part2(self):
+        if self.coord["y"] > self.cave.map_size["max_y"]:
+            # abc = tuple((self.coord["x"], self.coord["y"]))
+            # self.cave.items_tupel.add(abc)
+            return True
+        else:
+
+            return False
 
     def possible_moves_part2(self):
         left = {"x": -1,
@@ -230,10 +233,11 @@ class SandParticle(Sand):
                 "y": 1}
         blocked = {"x": 0,
                    "y": 0}
-        sanddown=(self.coord["x"]+down["x"],self.coord["y"]+down["y"])
+        sanddown = (self.coord["x"] + down["x"], self.coord["y"] + down["y"])
         sandright = (self.coord["x"] + right["x"], self.coord["y"] + right["y"])
-        sandleft=(self.coord["x"]+left["x"],self.coord["y"]+left["y"])
-        setitems=self.cave.items_tupel
+        sandleft = (self.coord["x"] + left["x"], self.coord["y"] + left["y"])
+
+        setitems = self.cave.items_tupel
         if sanddown not in setitems:
             return down
         if sandleft not in setitems:
@@ -242,5 +246,15 @@ class SandParticle(Sand):
             return right
         else:
             return blocked
+        # slower 400sec
+        # moves=list(self.cave.map.loc[sanddown[1],sanddown[0]-1:sanddown[0]+1])
 
-
+        # or also slower 100sec
+        # if self.cave.map[sanddown[0]][sanddown[1]] not in ["o","#"] :
+        #     return down
+        # if self.cave.map[sandleft[0]][sandleft[1]] not in ["o","#"] :
+        #     return left
+        # if self.cave.map[sandright[0]][sandright[1]] not in ["o","#"] :
+        #     return right
+        # else:
+        #     return blocked
