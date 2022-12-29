@@ -4,7 +4,8 @@ import time
 # made some performance tests.
 # using set is fastest-> 6-9 sec
 # using dataframe is alot slower -> 60-70 sec
-# because adding data to dataframe and reading data is very time consuming
+# because adding data to dataframe and reading
+# data is very time consuming
 # using list is alot slower-> 3000 sec
 
 def main():
