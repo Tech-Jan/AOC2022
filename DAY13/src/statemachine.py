@@ -62,7 +62,6 @@ def compare_signal(txt: list, mysignal1: MySignal, mysignal2: MySignal, wincount
             newState = "win_condition1"
             return newState, txt
 
-        return newState, txt
     else:
         # ToDo: in class MySignal, not only have attribute currentitem,
         #  expand attributes with current parent list if

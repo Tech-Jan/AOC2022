@@ -10,6 +10,51 @@ class MySignal(object):
         self.current_index = "Y"
         self.add_child()
         self.current_item()
+        self.has_children_expanded = False
+        self.children_expanded=[]
+        self.current_item_expand= []
+        self.current_item_expandclass=[]
+
+    def get_item_expended(self):
+        if self.signal[0]!=[]:
+            if type(self.signal[0])==list:
+                if self.has_children_expanded:
+                    child = self.children_expanded[0]
+                    child.get_item_expended()
+            else:
+                abc = self
+                while abc.parent is not None:
+                    abc = abc.parent
+                isint=False
+                for sign in self.signal:
+                    if type (sign)==list:
+                        isint=True
+                if isint:
+                    abc.current_item_expand = self.signal[0]
+                    abc.current_item_expandclass = self
+                else:
+                    abc.current_item_expand = self.signal
+
+
+        else:
+            abc = self
+            while abc.parent is not None:
+                abc = abc.parent
+            abc.current_item_expand = []
+            abc.current_item_expandclass = self
+
+
+    def current_item_expander(self):
+        for signal in self.signal:
+            if type(signal) == list:
+                child = MySignal()
+                child.signal = signal
+                child.index = self.index + 1
+                self.children_expanded.append(child)
+                self.has_children_expanded = True
+                child.root = False
+                child.parent = self
+                child.current_item_expander()
 
     def add_child(self):
         for signal in self.signal:
@@ -43,6 +88,7 @@ class MySignal(object):
         self.children = []
         self.has_children = False
         self.current_items = "X"
+        self.children_expanded =[]
         self.add_child()
         self.current_item()
         return self
@@ -85,6 +131,19 @@ class MySignal(object):
                 if self.parent.root == False:
                     self.parent.remove_child()
             return self.signal
+
+    def current_items_expanded_remove(self):
+        self.refresh()
+        self.current_item_expander()
+        self.get_item_expended()
+        if self.current_item_expand!=[]:
+            if type(self.current_item_expand)==list:
+                self.current_item_expand.pop(0)
+            if type(self.current_item_expand) == int:
+                self.current_item_expandclass.signal.remove(self.current_item_expand)
+        else:
+            self.current_item_expandclass.signal.remove([])
+
 
 
 class WinCounter():
