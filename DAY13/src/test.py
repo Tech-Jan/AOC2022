@@ -25,6 +25,7 @@ def main() -> None:
 
     itxt = open("..\input\\input", mode='r').read().split("\n\n")
     itxt = [i.splitlines() for i in itxt]
+
     pkts = [eval(j) for i in itxt for j in i]
     pkts = [[list(pl), list(pr)] for pl, pr in zip(pkts[0::2], pkts[1::2])]
 
