@@ -76,7 +76,6 @@ class Cave:
         return (False, None)
 
     def floydwarshall(self):
-        u=0
         M = [[9999999 for x in range(len(self.valves))] for y in range(len(self.valves))]
         for x in range(len(M)):
             for y in range(len(M[0])):
@@ -86,12 +85,9 @@ class Cave:
                 if exists:
                     M[x][y] = 1
         for k in range(len(M)):
-            print(u)
             print(M)
             for i in range(len(M)):
                 for j in range(len(M)):
-                    u+=1
-
                     newDistance = M[i][k] + M[k][j]
                     if newDistance < M[i][j]:
                         M[i][j] = newDistance

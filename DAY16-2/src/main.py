@@ -20,22 +20,22 @@ def main():
 
     def visit(valve, minutes, bitmask, pressure, answer):
         answer[bitmask] = max(answer.get(bitmask, 0), pressure)
+
         for valve2 in cave.valves:
             flow = valve2.flowrate
             if flow > 0:
                 remaining_minutes = minutes - matrix[cave.valves.index(valve)][cave.valves.index(valve2)] - 1
                 # print(answer[bitmask])
                 if indiciesreal[valve2.name] & bitmask or remaining_minutes <= 0: continue
-                visit(valve2, remaining_minutes, bitmask | indiciesreal[valve2.name],
+                visit(valve2, remaining_minutes, bitmask + indiciesreal[valve2.name],
                       pressure + flow * remaining_minutes, answer)
         return answer
 
     # cave.valves[0] in testinput for valve AA
     # cave.valves[52] in input for valve AA
-    pex = visit(cave.valves[52], 30, 0, 0, {})
+    pex = visit(cave.valves[52], 30, 0, 0, {}).values()
     part1 = max(pex)
     print(pex)
-    print(cave.valves[1].flowrate)
     print(part1)
     visited2 = visit(cave.valves[52], 26, 0, 0, {})
     part2 = max(v1 + v2 for bitm1, v1 in visited2.items()
