@@ -12,7 +12,7 @@ class Map:
         self.landscape = self.read_input()
 
     def read_input(self):
-        raw_data = filereader.readfile("C:\\Users\\rik\PycharmProjects\AOC2022\Day12\input\input")
+        raw_data = filereader.readfile("C:\\Users\\trewe\PycharmProjects\AOC2022\Day12\input\input")
         data_frame = pd.DataFrame(raw_data)
         self.height = data_frame.shape[0] - 1
         self.width = data_frame.shape[1] - 1

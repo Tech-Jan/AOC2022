@@ -69,7 +69,7 @@ def main():
     # lab.search_end(end, my_elf_army2, lab2, my_map, abc, )
 
     # part3
-    with open("C:\\Users\\rik\PycharmProjects\AOC2022\Day12\src\mypath", "r") as f:
+    with open("C:\\Users\\trewe\PycharmProjects\AOC2022\Day12\src\mypath", "r") as f:
         my_path = f.read()
     my_path = my_path.split("\n")
     wanderer = Elf()
