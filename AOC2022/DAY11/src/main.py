@@ -1,6 +1,4 @@
-from DAY11.src.filereader import readfile
-from DAY11.src.statemachine import *
-import argparse
+from AOC2022.DAY11.src.filereader import readfile
 
 
 def create_machine(m, monkey_list):

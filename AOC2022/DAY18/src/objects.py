@@ -2,7 +2,7 @@ import numpy as np
 
 
 def filereader():
-    with open("../input/input","r") as f:
+    with open("../input/input", "r") as f:
         data = f.read().split("\n")
         data_2=[]
         for item in data:

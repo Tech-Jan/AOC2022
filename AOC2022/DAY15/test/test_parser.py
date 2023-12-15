@@ -2,8 +2,6 @@ from unittest.mock import Mock
 
 import pytest
 
-from DAY15.src.map import *
-
 
 @pytest.fixture()
 def sensor():

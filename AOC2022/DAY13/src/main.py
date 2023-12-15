@@ -1,4 +1,3 @@
-from DAY13.src.statemachine import *
 from filereader import readfile
 from my_signal import MySignal, WinCounter
 from itertools import zip_longest
@@ -20,7 +19,7 @@ def create_machine(m, input):
 
 
 def main():
-    input_file = "..\input\\input"
+    input_file = "../input/input"
     input = readfile(input_file)
     m = StateMachine()
     wincounter = WinCounter()

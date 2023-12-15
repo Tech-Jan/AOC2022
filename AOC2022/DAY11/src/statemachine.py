@@ -1,4 +1,4 @@
-from DAY11.src.monkey import Monkey
+from AOC2022.DAY11.src.monkey import Monkey
 
 
 class StateMachine:

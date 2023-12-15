@@ -23,7 +23,7 @@ def main() -> None:
                 if ret in [True, False]: return ret
                 else: print("WTFF")
 
-    itxt = open("..\input\\input", mode='r').read().split("\n\n")
+    itxt = open("../input/input", mode='r').read().split("\n\n")
     itxt = [i.splitlines() for i in itxt]
 
     pkts = [eval(j) for i in itxt for j in i]

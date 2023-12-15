@@ -1,6 +1,6 @@
 import pandas as pd
 
-from DAY15.input.filereader import filereader
+from AOC2022.DAY15.input.filereader import filereader
 
 FILE = "../input/input"
 #in main

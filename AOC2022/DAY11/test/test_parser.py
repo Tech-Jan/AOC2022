@@ -1,7 +1,5 @@
 import pytest
 
-from DAY11.src.main import *
-
 
 @pytest.fixture
 def monkey_list():

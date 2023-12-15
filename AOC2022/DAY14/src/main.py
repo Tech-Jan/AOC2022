@@ -40,7 +40,7 @@ def main():
     elapsed_time3=et3-st3
     elapsed_time4 = et4 - st4
     elapsed_time5=et5-st5
-    with open("timesmeasured","a") as f:
+    with open("timesmeasured", "a") as f:
         f.write(f"elapsed_time1= {elapsed_time},createobjects= {elapsed_time5}, fillsand= elapsed_time2= {elapsed_time2}, time_refresh dataframe= {elapsed_time3}, time print data= {elapsed_time4}\n")
     print(elapsed_time,elapsed_time2,elapsed_time3,elapsed_time4)
 
