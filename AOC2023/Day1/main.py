@@ -37,31 +37,27 @@ numbers_dict={"one":1,
 
 
 input_list=read_input("input.txt")
+
+def find_value(values:list , found:dict, line:str):
+    for number in values:
+        index = 0
+        oldindex = -1
+        while index != oldindex:
+            oldindex = index
+            if str(number) in line[index:]:
+                index = line[index:].find(str(number)) + index
+                if type(number)==str:
+                    found[index] = numbers_dict[number]
+                else:
+                    found[index] = number
+                index += 1
 def transform(input_list:list):
     outputs=[]
     for line in input_list:
         found= {}
         print(line)
-        for number in numbers_dict.keys():
-            index=0
-            oldindex=-1
-            while index!=oldindex:
-                oldindex=index
-                if number in line[index:]:
-                    index=line[index:].find(number)+index
-                    found[index]=numbers_dict[number]
-                    index+=1
-
-        for value in numbers_dict.values():
-            index=0
-            oldindex=-1
-            while index!=oldindex:
-                oldindex=index
-                if str(value) in line[index:]:
-                    index = line[index:].find(str(value))+index
-                    found[index] = value
-                    index+=1
-
+        find_value(numbers_dict.keys(), found, line)
+        find_value(numbers_dict.values(), found, line)
         outputs.append(found)
     return outputs
 
