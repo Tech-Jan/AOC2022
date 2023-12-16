@@ -49,13 +49,13 @@ for gaym,[winner,gaymer] in enumerate(games):
         for possible in gaymer:
             if number == possible:
                 gains += 1
-    for j in range(int(stacks[gaym])):
-        for i in range(1,gains+1):
 
-            try:
-                stacks[gaym+i]+=1
-            except:
-                pass
+    for i in range(1,gains+1):
+
+        try:
+            stacks[gaym+i]+=1*int(stacks[gaym])
+        except:
+            pass
 
 
 
