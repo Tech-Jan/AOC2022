@@ -153,10 +153,24 @@ class puzzle:
 
     def counter_part2(self):
         counts=0
+        new=[]
         for xy1 in self.keyword_tl_br_quader:
             for xy2 in self.keyword_bl_tr_quader:
                 if xy1==xy2:
-                    counts+=2
+                    counts+=1
+                    new.append(xy1)
+
+        fuck=[]
+        for y in range(10):
+            kk=""
+            for x in range(10):
+                if [x,y] in new:
+                    kk+="A"
+                else:
+                    kk+="."
+            fuck.append(kk)
+        self.printer(fuck)
+
         print(f"part2 {counts}")
 
     def coordinate_transfomer_tl_br(self, old_coordinates):
