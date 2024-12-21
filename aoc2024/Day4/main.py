@@ -1,5 +1,8 @@
 from itertools import count
 from operator import index
+import za
+case=1
+
 
 import reader
 
@@ -121,7 +124,7 @@ class puzzle:
             x = line.find(keyword, pos)
             if x != -1:
                 x_coord.append(x+1)
-            pos += x+len(keyword)
+            pos = x+1
             if x == -1:
                 return x_coord
 
@@ -129,7 +132,7 @@ class puzzle:
 
         for x in x_list:
             coords.append([x,y])
-        return coords
+
 
     def x_max_search(self):
         keywords = ["MAS","SAM"]
@@ -138,13 +141,13 @@ class puzzle:
         for y, value in enumerate(self.diagonal_tl_br):
             for keyword in keywords:
                 x_list=list(self.get_x_line(value,keyword))
-                pos_tl_br=self.klappauf_x(x_list,y,pos_tl_br)
+                self.klappauf_x(x_list,y,pos_tl_br)
             #print(f"x={x},y={y}")
             #print(pos)
         for y, value in enumerate(self.diagonal_bl_tr):
             for keyword in keywords:
                 x_list=list(self.get_x_line(value,keyword))
-                pos_bl_tr=self.klappauf_x(x_list,y,pos_bl_tr)
+                self.klappauf_x(x_list,y,pos_bl_tr)
         print("pos_tl_br  ", pos_tl_br)
         print("pos_bl_tr  ",pos_bl_tr)
 
@@ -154,23 +157,35 @@ class puzzle:
     def counter_part2(self):
         counts=0
         new=[]
+        new_list=[]
         for xy1 in self.keyword_tl_br_quader:
             for xy2 in self.keyword_bl_tr_quader:
                 if xy1==xy2:
                     counts+=1
-                    new.append(xy1)
-
+                    new.append(tuple(xy1))
+                    new_list.append(xy1)
         fuck=[]
-        for y in range(10):
+        for y in range(self.rooster_heigth):
             kk=""
-            for x in range(10):
-                if [x,y] in new:
+            for x in range(self.rooster_width):
+                if [x,y] in new_list:
                     kk+="A"
                 else:
                     kk+="."
             fuck.append(kk)
         self.printer(fuck)
-
+        print(new)
+        res2=za.main(case)
+        added=[]
+        kuku=0
+        for item in new:
+            for item2 in res2:
+                if item==item2:
+                    added.append(item)
+                    kuku+=1
+        lala=list(set(res2)-set(new))
+        print("similarities  ",kuku,added)
+        print("nosimilar",lala)
         print(f"part2 {counts}")
 
     def coordinate_transfomer_tl_br(self, old_coordinates):
@@ -211,7 +226,7 @@ class puzzle:
         self.keyword_bl_tr_quader=new_coordinates
 
 def main():
-    input = reader.read_input(2)
+    input = reader.read_input(case)
     puzzle_1 = puzzle(input)
     # puzzle_1.printer(puzzle_1.rooster)
     # puzzle_1.printer(puzzle_1.vertical)
