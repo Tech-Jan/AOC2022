@@ -1,9 +1,7 @@
-import za
+from aoc2024.Day4.src import za
+from aoc2024.Day4.src import reader
 
 case = 1
-
-import reader
-
 
 class puzzle:
     def __init__(self, rooster: list):
@@ -34,6 +32,7 @@ class puzzle:
                              "keyword_bl_tr": self.keyword_bl_tr,
                              "self.keyword_bl_tr_quader": self.keyword_bl_tr_quader,
                              "self.keyword_tl_br_quader": self.keyword_tl_br_quader}
+        self.res_part2 = self.counter_part2_do()
 
     def func(self):
         pass
@@ -149,14 +148,14 @@ class puzzle:
         for y in range(self.rooster_heigth):
             kk = ""
             for x in range(self.rooster_width):
-                if [x, y] in hits:
+                if (x, y) in hits:
                     kk += "A"
                 else:
                     kk += "."
             fuck.append(kk)
         self.printer(fuck)
 
-    def counter_part2(self):
+    def counter_part2_do(self):
         counts = 0
         new = []
         new_list = []
@@ -166,21 +165,23 @@ class puzzle:
                     counts += 1
                     new.append(tuple(xy1))
                     new_list.append(xy1)
-        #self.show_hits(new_list)
-        #print(new)
+        return new
 
+    def counter_part2(self):
+        self.show_hits(self.res_part2)
+        #print(self.res_part2)
         res2 = za.main(case)
         added = []
         kuku = 0
-        for item in new:
+        for item in self.res_part2:
             for item2 in res2:
                 if item == item2:
                     added.append(item)
                     kuku += 1
-        lala = list(set(res2) - set(new))
+        lala = list(set(res2) - set(self.res_part2))
         print("similarities  ", kuku, added)
         print("nosimilar", lala)
-        print(f"part2 {counts}")
+        print(f"part2 {len(self.res_part2)}")
 
     def coordinate_transfomer_tl_br(self, old_coordinates):
         new_coordinates = []
@@ -197,7 +198,7 @@ class puzzle:
                 x_new = y_old - self.rooster_heigth + 1 + x_old
                 new_coordinates.append([x_new, y_new])
                 # new_coordinates.append(["BIG",x_new,y_new,x_old,y_old])
-        print(new_coordinates)
+        #print(new_coordinates)
         return new_coordinates
 
     def coordinate_transfomer_bl_tr(self, old_coordinates):
@@ -215,7 +216,7 @@ class puzzle:
                 x_new = y_old - self.rooster_heigth + 1 + x_old
                 # new_coordinates.append(["BIG", x_new, y_new, x_old, y_old])
                 new_coordinates.append([x_new, y_new])
-        print(new_coordinates)
+        #print(new_coordinates)
         return new_coordinates
 
 
@@ -230,21 +231,6 @@ def main():
     puzzle_1.counter_part2()
     print("end")
 
-    # test
-    # roos = []
-    # for y in range(10):
-    #     xrow = []
-    #     for x in range(10):
-    #         xrow.append([x, y])
-    #     roos.append(xrow)
-    #
-    # print(roos)
-    #
-    # print(roos[5][3])
-
-    # 489 to low
-    # 595 to low
-    # 1908??
 
 
 if __name__ == "__main__":

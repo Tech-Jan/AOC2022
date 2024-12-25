@@ -1,11 +1,16 @@
+import os
 from collections import defaultdict
 from itertools import product
 
+TEST_FILENAME = os.path.join(os.path.dirname(__file__), 'input.txt')
+
 def main(case):
     if case==1:
-        input=("input.txt")
+        TEST_FILENAME = os.path.join(os.path.dirname(__file__), 'input.txt')
+        input=(TEST_FILENAME)
     else:
-        input=("testinput.txt")
+        TEST_FILENAME = os.path.join(os.path.dirname(__file__), 'testinput.txt')
+        input=(TEST_FILENAME)
     with open(input) as f:
         ls = f.read().strip().split("\n")
 
@@ -40,15 +45,15 @@ def main(case):
             ):
                 mycoordsa.append(z)
                 res += 1
-    print(res)
-    print(mycoordsa)
+    #print(res)
+    #print(mycoordsa)
     coordstrans = []
     for item in mycoordsa:
         x, y = str(item).split("+")
         y = y[:-2]
         x=x[1:]
         coordstrans.append(tuple([int(y), int(x)]))
-    print(coordstrans)
+    #print(coordstrans)
     return(coordstrans)
 
 if __name__ == "__main__":
