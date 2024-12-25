@@ -1,4 +1,7 @@
 import pytest
+from ..src.main import inspection_counter_p1
+from ..src.main import inspection_counter_p2
+from ..src.monkey import *
 
 
 @pytest.fixture

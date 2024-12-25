@@ -1,4 +1,6 @@
 from AOC2022.DAY11.src.filereader import readfile
+from ..src.statemachine import  *
+from ..src.monkey import Monkey
 
 
 def create_machine(m, monkey_list):
