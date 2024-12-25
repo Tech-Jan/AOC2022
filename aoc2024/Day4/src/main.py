@@ -1,6 +1,6 @@
 from aoc2024.Day4.src import za
 from aoc2024.Day4.src import reader
-
+#case1=real case2=test
 case = 1
 
 class puzzle:
