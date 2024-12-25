@@ -1,13 +1,15 @@
 from aoc2024.Day4.src import za
 from aoc2024.Day4.src import reader
-#case1=real case2=test
+
+# case1=real case2=test
 case = 1
 
-class puzzle:
+
+class Puzzle:
     def __init__(self, rooster: list):
         self.rooster: list[list[str]] = rooster
         self.rooster_width: int = len(self.rooster[0])
-        self.rooster_heigth: int = len(self.rooster)
+        self.rooster_height: int = len(self.rooster)
         self.vertical: list[str] = self.turn_to_string(self.transform_vertical())
         self.vertical_r = self.reverser(self.vertical)
         self.diagonal_tl_br: list[str] = self.turn_to_string(self.transform_diagonal_tl_br())
@@ -19,7 +21,7 @@ class puzzle:
         self.directions_dict = {"vertical": self.vertical,
                                 "vertical_r": self.vertical_r,
                                 "horizontal": self.horizontal,
-                                "horzontal_r": self.horizontal_r,
+                                "horizontal_r": self.horizontal_r,
                                 "diagonal_tl_br": self.diagonal_tl_br,
                                 "diagonal_tl_br_r": self.diagonal_tl_br_r,
                                 "diagonal_bl_tr": self.diagonal_bl_tr,
@@ -27,7 +29,7 @@ class puzzle:
         self.keyword_tl_br = self.x_max_search(self.diagonal_tl_br)
         self.keyword_bl_tr = self.x_max_search(self.diagonal_bl_tr)
         self.keyword_bl_tr_quader = self.coordinate_transfomer_bl_tr(self.keyword_bl_tr)
-        self.keyword_tl_br_quader = self.coordinate_transfomer_tl_br(self.keyword_tl_br)
+        self.keyword_tl_br_quader = self.coordinate_transformer_tl_br(self.keyword_tl_br)
         self.keyword_dict = {"keyword_tl_br": self.keyword_tl_br,
                              "keyword_bl_tr": self.keyword_bl_tr,
                              "self.keyword_bl_tr_quader": self.keyword_bl_tr_quader,
@@ -37,14 +39,15 @@ class puzzle:
     def func(self):
         pass
 
-    def turn_to_string(self, table):
+    @staticmethod
+    def turn_to_string(table):
         table_str = []
-        stroutput = ""
+        str_output = ""
         for line in table:
             for letter in line:
-                stroutput += letter
-            table_str.append(stroutput)
-            stroutput = ""
+                str_output += letter
+            table_str.append(str_output)
+            str_output = ""
         return table_str
 
     def printer(self, prints):
@@ -53,14 +56,15 @@ class puzzle:
             print(line)
 
     def transform_vertical(self):
-        vertical = [[] for x in range(len(self.rooster))]
+        vertical = [[] for _x in range(len(self.rooster))]
         for column in self.rooster:
             for row in range(len(column)):
                 vertical[row].append(column[row])
 
         return vertical
 
-    def count(self, table: list[str]):
+    @staticmethod
+    def count(table: list[str]):
         keyword = "XMAS"
         total_count = 0
         for line in table:
@@ -69,7 +73,7 @@ class puzzle:
         return total_count
 
     def reverser(self, table: list[str]):
-        table_reversed: list[str] = []
+        table_reversed: list[list[str]] = []
         for line in table:
             table_reversed.append(list(reversed(line)))
         table_reversed_str = self.turn_to_string(table_reversed)
@@ -90,36 +94,37 @@ class puzzle:
         return total_count
 
     def transform_diagonal_tl_br(self):
-        diagonal = [[] for x in range(self.rooster_heigth + self.rooster_width)]
-        for column_count in range(self.rooster_heigth + 1):
+        diagonal = [[] for _x in range(self.rooster_height + self.rooster_width)]
+        for column_count in range(self.rooster_height + 1):
             for i in range(column_count):
                 x = i
                 y = column_count - i - 1
-                c = column_count - 1
+                _c = column_count - 1
                 diagonal[column_count - 1].append(self.rooster[y][x])
         for row_count in range(self.rooster_width):
             for column_count in range(row_count):
                 x = self.rooster_width - row_count + column_count
-                y = self.rooster_heigth - column_count - 1
-                c = self.rooster_heigth + self.rooster_width - row_count - 1
-                diagonal[self.rooster_heigth + self.rooster_width - row_count - 1].append(self.rooster[y][x])
+                y = self.rooster_height - column_count - 1
+                _c = self.rooster_height + self.rooster_width - row_count - 1
+                diagonal[self.rooster_height + self.rooster_width - row_count - 1].append(self.rooster[y][x])
         return diagonal
 
     def transform_diagonal_bl_tr(self):
-        diagonal = [[] for x in range(self.rooster_heigth + self.rooster_width)]
-        for column_count in range(self.rooster_heigth, -1, -1):
-            for i in range(self.rooster_heigth - column_count):
+        diagonal = [[] for _x in range(self.rooster_height + self.rooster_width)]
+        for column_count in range(self.rooster_height, -1, -1):
+            for i in range(self.rooster_height - column_count):
                 x = i
                 y = column_count + i
-                diagonal[self.rooster_heigth - column_count - 1].append(self.rooster[y][x])
+                diagonal[self.rooster_height - column_count - 1].append(self.rooster[y][x])
         for row_count in range(self.rooster_width - 1, 0, -1):
             for column_count in range(self.rooster_width - row_count):
                 x = row_count + column_count
                 y = column_count
-                diagonal[self.rooster_heigth + row_count - 1].append(self.rooster[y][x])
+                diagonal[self.rooster_height + row_count - 1].append(self.rooster[y][x])
         return diagonal
 
-    def get_x_line(self, line, keyword):
+    @staticmethod
+    def get_x_line( line, keyword):
         x_coord = []
         pos = 0
         while True:
@@ -130,7 +135,8 @@ class puzzle:
             if x == -1:
                 return x_coord
 
-    def klappauf_x(self, x_list: list, y: int, coords):
+    @staticmethod
+    def klappauf_x( x_list: list, y: int, coords):
         for x in x_list:
             coords.append([x, y])
 
@@ -145,7 +151,7 @@ class puzzle:
 
     def show_hits(self, hits):
         fuck = []
-        for y in range(self.rooster_heigth):
+        for y in range(self.rooster_height):
             kk = ""
             for x in range(self.rooster_width):
                 if (x, y) in hits:
@@ -169,7 +175,7 @@ class puzzle:
 
     def counter_part2(self):
         self.show_hits(self.res_part2)
-        #print(self.res_part2)
+        # print(self.res_part2)
         res2 = za.main(case)
         added = []
         kuku = 0
@@ -183,22 +189,22 @@ class puzzle:
         print("nosimilar", lala)
         print(f"part2 {len(self.res_part2)}")
 
-    def coordinate_transfomer_tl_br(self, old_coordinates):
+    def coordinate_transformer_tl_br(self, old_coordinates):
         new_coordinates = []
         for old_coordinate in old_coordinates:
             x_old = old_coordinate[0]
             y_old = old_coordinate[1]
-            if y_old < self.rooster_heigth:
+            if y_old < self.rooster_height:
                 y_new = y_old - x_old
                 x_new = x_old
                 new_coordinates.append([x_new, y_new])
                 # new_coordinates.append([x_new,y_new,x_old,y_old])
             else:
-                y_new = self.rooster_heigth - 1 - x_old
-                x_new = y_old - self.rooster_heigth + 1 + x_old
+                y_new = self.rooster_height - 1 - x_old
+                x_new = y_old - self.rooster_height + 1 + x_old
                 new_coordinates.append([x_new, y_new])
                 # new_coordinates.append(["BIG",x_new,y_new,x_old,y_old])
-        #print(new_coordinates)
+        # print(new_coordinates)
         return new_coordinates
 
     def coordinate_transfomer_bl_tr(self, old_coordinates):
@@ -206,31 +212,30 @@ class puzzle:
         for old_coordinate in old_coordinates:
             x_old = old_coordinate[0]
             y_old = old_coordinate[1]
-            if y_old < self.rooster_heigth:
-                y_new = self.rooster_heigth - 1 - y_old + x_old
+            if y_old < self.rooster_height:
+                y_new = self.rooster_height - 1 - y_old + x_old
                 x_new = x_old
                 # new_coordinates.append([x_new, y_new, x_old, y_old])
                 new_coordinates.append([x_new, y_new])
             else:
                 y_new = x_old
-                x_new = y_old - self.rooster_heigth + 1 + x_old
+                x_new = y_old - self.rooster_height + 1 + x_old
                 # new_coordinates.append(["BIG", x_new, y_new, x_old, y_old])
                 new_coordinates.append([x_new, y_new])
-        #print(new_coordinates)
+        # print(new_coordinates)
         return new_coordinates
 
 
 def main():
-    input = reader.read_input(case)
-    puzzle_1 = puzzle(input)
+    inputs = reader.read_input(case)
+    puzzle_1 = Puzzle(inputs)
     # puzzle_1.printer(puzzle_1.rooster)
     # puzzle_1.printer(puzzle_1.vertical)
     # puzzle_1.printer(puzzle_1.diagonal_tl_br)
-    #puzzle_1.printer(puzzle_1.diagonal_bl_tr)
+    # puzzle_1.printer(puzzle_1.diagonal_bl_tr)
     puzzle_1.counter_part1()
     puzzle_1.counter_part2()
     print("end")
-
 
 
 if __name__ == "__main__":

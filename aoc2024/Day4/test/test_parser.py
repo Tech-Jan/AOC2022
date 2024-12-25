@@ -11,7 +11,7 @@ def resultat1():
 
 def resultat2():
     input = reader.read_input(case)
-    resultat2 = main.puzzle(input).res_part2
+    resultat2 = main.Puzzle(input).res_part2
     return set(resultat2)
 
 def testaa():
