@@ -124,7 +124,7 @@ class Puzzle:
         return diagonal
 
     @staticmethod
-    def get_x_line( line, keyword):
+    def get_x_line(line, keyword):
         x_coord = []
         pos = 0
         while True:
@@ -136,7 +136,7 @@ class Puzzle:
                 return x_coord
 
     @staticmethod
-    def klappauf_x( x_list: list, y: int, coords):
+    def klappauf_x(x_list: list, y: int, coords):
         for x in x_list:
             coords.append([x, y])
 
