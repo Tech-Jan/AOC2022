@@ -2,7 +2,7 @@ from filereader import readfile
 from copy import deepcopy
 from painters import paint_head, paint_head2
 
-commands = readfile("C:\\Users\\trewe\PycharmProjects\AOC2022\DAY9\input")
+commands = readfile("D:\python\pycharmprojects\AOC2022\AOC2022\DAY9\input")
 # commands = readfile("/home/jew/PycharmProjects/AOC2022/DAY9/testinput")
 
 pos_h = [0, 0]
