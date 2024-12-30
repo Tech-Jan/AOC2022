@@ -52,6 +52,10 @@ class Printer:
     def print_cut(self):
         pass
 
+    @staticmethod
+    def print(input):
+        print(input)
+
     def printer2(self):
         prints_str = self.turn_to_string(self.prints)
         if self.pos != () and (self.fov_range!=0 and self.fov_range*2<self.x_max) :
