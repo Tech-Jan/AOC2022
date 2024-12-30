@@ -6,12 +6,13 @@ import time
 class Maze:
     def __init__(self, maze):
         self.maze = maze
-        self.maze_orig=maze.copy()
+        self.maze_orig = maze.copy()
         self.lenx_maze = len(maze[0])
         self.leny_maze = len(maze)
         self.watcher_pos = self.find_watcher()
         self.watcher_dir = (0 - 1j)
-        self.stones_pos = self.find_stones(self.maze)
+        self.stones_pos = self.find_stones(self.maze_orig)
+        self.stones_pos_orig = self.find_stones(self.maze_orig)
         self.move_possible = True
         self.extra_stone_possible = True
         self.extra_stone = (0 + 0j)
@@ -19,11 +20,12 @@ class Maze:
         self.stone_counts = 0
 
     def maze_reset(self):
-        self.maze=self.maze_orig.copy()
-        self.watcher_dir=(0 - 1j)
-        self.watcher_pos =self.find_watcher()
-        self.move_possible=True
-        self.move_counts=0
+        self.maze = self.maze_orig.copy()
+        self.watcher_dir = (0 - 1j)
+        self.watcher_pos = self.find_watcher()
+        self.move_possible = True
+        self.move_counts = 0
+        self.stones_pos = self.stones_pos_orig[:]
 
     def turn_r(self):
         self.watcher_dir = self.watcher_dir * (1j)
@@ -63,7 +65,7 @@ class Maze:
         if x >= 0 and x <= len(self.maze[0]) and y >= 0 and y <= len(self.maze) - 1:
             self.maze[y] = self.maze[y][:x] + 'X' + self.maze[y][x + 1:]
             self.move_counts += 1
-            #print(self.move_counts)
+            # print(self.move_counts)
             if self.move_counts > 10000:
                 self.stone_counts += 1
                 print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
@@ -72,7 +74,7 @@ class Maze:
         else:
             self.move_possible = False
 
-    def find_stones(self,maze):
+    def find_stones(self, maze):
         stones = []
         for y, line in enumerate(maze):
             for x, letter in enumerate(line):
@@ -90,20 +92,18 @@ class Maze:
         x_stone, y_stone = self.get_xy(self.extra_stone)
         self.maze = self.maze_orig.copy()
         self.maze[y_stone] = self.maze[y_stone][:x_stone] + 'O' + self.maze[y_stone][x_stone + 1:]
-
+        self.stones_pos.append(complex(x_stone, y_stone))
 
     def move_stone(self):
         x_stone, y_stone = self.get_xy(self.extra_stone)
         if x_stone >= 0 and x_stone < self.lenx_maze - 1:
-            self.extra_stone += (1 + 0j)
-            self.put_stone()
-            self.stones_pos= self.find_stones(self.maze)
+            self.extra_stone += complex(1 , 0)
         elif y_stone >= 0 and y_stone < self.lenx_maze - 1:
-            self.extra_stone = complex(0 + (y_stone + 1) * 1j)
-            self.put_stone()
-            self.stones_pos= self.find_stones(self.maze)
+            self.extra_stone = complex(0 , (y_stone + 1))
         else:
             self.extra_stone_possible = False
+        if self.extra_stone_possible:
+            self.put_stone()
 
 
 def main():
@@ -124,10 +124,10 @@ def main():
         while my_maze.move_possible:
             my_maze.move()
         # time.sleep(0.1)
-        my_maze.move_stone()
         my_maze.maze_reset()
+        my_maze.move_stone()
 
-        #Printer(my_maze.maze).printer2()
+        # Printer(my_maze.maze).printer2()
         print(my_maze.extra_stone)
     print(my_maze.stone_counts)
     # 5106 to high
